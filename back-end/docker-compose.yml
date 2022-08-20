@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+    database:
+        image: postgres
+        container_name: postgres_db
+        restart: always
+        ports:
+            - 2000:5432
+        env_file:
+            - .env
+        networks:
+            - docker connection
+        volumes:
+            - postgres:/var/lib/postgresql/data
+
+    server:
+        container_name: node_server
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 5000:5000
+        depends_on:
+            - database
+        env_file:
+            - .env
+        networks:
+            - docker connection
+
+network:
+    docker connection:
+        driver: bridge
+
+volumes:
+    postgres:
