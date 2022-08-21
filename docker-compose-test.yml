@@ -11,8 +11,6 @@ services:
             - ./back-end/.env.test
         networks:
             - docker connection
-        volumes:
-            - postgres:/var/lib/postgresql/data
 
     server:
         container_name: node_server
@@ -31,6 +29,3 @@ services:
 networks:
     docker connection:
         driver: bridge
-
-volumes:
-    postgres:
