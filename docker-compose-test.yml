@@ -8,7 +8,7 @@ services:
         ports:
             - 2000:5432
         env_file:
-            - .env
+            - ./back-end/.env.test
         networks:
             - docker connection
         volumes:
@@ -17,14 +17,14 @@ services:
     server:
         container_name: node_server
         build:
-            context: .
+            context: ./back-end
             dockerfile: Dockerfile
         ports:
             - 5000:5000
         depends_on:
             - database
         env_file:
-            - .env
+            - ./back-end/.env.test
         networks:
             - docker connection
 
