@@ -2,9 +2,9 @@ FROM node:16
 
 RUN apt-get update && apt-get install -y
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 
-COPY . /usr/src/app
+COPY . /usr/src
 
 EXPOSE 5000
 
