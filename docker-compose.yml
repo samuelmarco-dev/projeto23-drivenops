@@ -9,8 +9,6 @@ services:
             - 2000:5432
         env_file:
             - ./back-end/.env
-        networks:
-            - docker connection
         volumes:
             - postgres:/var/lib/postgresql/data
 
@@ -25,12 +23,29 @@ services:
             - database
         env_file:
             - ./back-end/.env
-        networks:
-            - docker connection
 
-networks:
-    docker connection:
-        driver: bridge
+    react:
+        container_name: react_app
+        build:
+            context: ./front-end
+            dockerfile: Dockerfile
+        volumes:
+            - build:/var/www/html
+
+    nginx:
+        container_name: nginx_server
+        build: 
+            context: ./nginx
+            dockerfile: Dockerfile
+        ports:
+            - 80:80
+        volumes:
+            - build:/var/www/html
+        depends_on:
+            - database
+            - server
+            - react
 
 volumes:
     postgres:
+    build:
