@@ -1,6 +1,6 @@
 FROM node:16
 
-RUN apt update
+RUN apt-get update && apt-get install -y
 
 WORKDIR /usr/src/app
 

@@ -28,7 +28,7 @@ services:
         networks:
             - docker connection
 
-network:
+networks:
     docker connection:
         driver: bridge
 
