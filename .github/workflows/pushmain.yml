@@ -8,4 +8,24 @@ jobs:
   AWSDeploy:
     runs-on: self-hosted
     steps:
-      - name: deploy to aws instance
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Create .env file in /backend folder
+        uses: SpicyPizza/create-envfile@v1
+        with: 
+          envkey_POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+          envkey_POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+          envkey_POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+          envkey_POSTGRES_DATABASE_URL: ${{secrets.POSTGRES_DATABASE_URL}}
+          directory: back-end/
+          file_name: .env
+      - name: Create .env file in /front-end folder
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_REACT_APP_BASE_URL: ${{secrets.REACT_APP_BASE_URL}}
+          directory: front-end/
+          file_name: .env
+      - name: Build app
+        run: docker-compose build
+      - name: Run Container
+        run: docker-compose down && docker-compose up -d
