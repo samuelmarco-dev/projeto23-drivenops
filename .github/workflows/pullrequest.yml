@@ -1,3 +1,22 @@
-name: Pull request (Action)
+#Continuous Integration
+name: Pull request approval(Action)
 on: [pull_request]
 jobs: 
+  IntegratedTests:
+    runs_on: ubuntu-latest
+    steps: 
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Create .env file in /backend folder
+        uses: SpicyPizza/create-envfile@v1
+        with: 
+          envkey_POSTGRES_USER: ${{secrets.POSTGRES_USER_TEST}}
+          envkey_POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD_TEST}}
+          envkey_POSTGRES_DB: ${{secrets.POSTGRES_DB_TEST}}
+          envkey_POSTGRES_DATABASE_URL: ${{secrets.POSTGRES_DATABASE_URL_TEST}}
+          directory: back-end/
+          file_name: .env.test
+      - name: Run integration tests
+        run: docker-compose -f docker-compose-test.yml run server npm run test
+      - name: Build app
+        run: cd back-end/ && npm i && npm run build
