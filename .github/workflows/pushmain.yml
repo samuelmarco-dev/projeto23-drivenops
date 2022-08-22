@@ -1,0 +1,11 @@
+#Continuous Delivery
+name: Push on main branch (Action)
+on: 
+  push:
+    branches:
+      - main
+jobs: 
+  AWSDeploy:
+    runs-on: self-hosted
+    steps:
+      - name: deploy to aws instance
